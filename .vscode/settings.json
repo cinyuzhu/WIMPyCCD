@@ -1,0 +1,13 @@
+// to find paths of the packages, use: 
+// import sys
+// print(sys.path)
+{
+    "python.analysis.extraPaths": [
+        "/Users/iumicuszhu/Documents/DAMIC-M/WIMPyCCD",
+        "/Users/iumicuszhu/Documents/DAMIC-M/WIMPyCCD/analysis",
+        "/Library/Frameworks/Python.framework/Versions/3.11/lib/python311.zip",
+        "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11",
+        "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/lib-dynload",
+        "/opt/homebrew/Cellar/root/6.24.06_1/lib/root"
+    ]
+}
