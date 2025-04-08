@@ -2,64 +2,70 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Define conversion factor
-
-
-def plot_differential_rate_with_ratio(E_Rs_GeV, dR_values, labels, 
-                                      unit_conversion=True, reference_index = 1,
-                                      xlabel="Energy (KeV)", ylabel="dR/dE (day⁻¹ kg⁻¹ KeV⁻¹)", 
-                                      title="Differential Rate", ratio_rage= [0.5, 1.5]):
+def plot_differential_rate(E_Rs, dR_values, labels, 
+                           ref_index = 1, 
+                           panel_type='ratio',  # 'residual', 'weighted_residual', or 'ratio'
+                           show = False):
     """
-    Plots differential rate curves with an additional ratio panel.
-
-    Parameters:
-    - E_Rs_GeV: Array of energy values in GeV
-    - dR_values: arrays representing differential rates
-    - labels: List of strings, corresponding to the curves
-    - reference_index: Index of the reference curve for ratio calculation (the second curve by default)
-    - xlabel, ylabel, title: Plot labels for customization
+    Plots differential rate curves with an additional comparison panel.
     """
-    if unit_conversion:
-        GeV_to_KeV = 1e6  # 1 GeV = 10^6 KeV
-    else:
-        GeV_to_KeV = 1
-
-    # Convert energy to KeV
-    E_Rs_KeV = E_Rs_GeV * GeV_to_KeV
-
-    # Convert differential rates to KeV⁻¹
-    dR_values_KeV = [np.array(dR) / GeV_to_KeV for dR in dR_values]
-
-    # Choose reference curve for ratio calculation (default: second curve, dRs1)
-    dR_reference = dR_values_KeV[reference_index]
-
-    # Compute ratio relative to reference
-    ratio_values = [dR / dR_reference for dR in dR_values_KeV]
-
-    # Create figure with two subplots (main plot + ratio panel)
     fig, axes = plt.subplots(2, 1, figsize=(8, 6), gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
 
+    dR_values = np.array(dR_values)
     # Main plot
-    for i, (dR, label) in enumerate(zip(dR_values_KeV, labels)):
-            if i == reference_index:
-                axes[0].plot(E_Rs_KeV, dR, linestyle=(0,(5,1)), linewidth=4, label=f"{label} (Reference)")
+    for i, (dR, label) in enumerate(zip(dR_values, labels)):
+            if i == ref_index:
+                axes[0].plot(E_Rs, dR, linestyle=(0,(5,1)), linewidth=2.5, label=f"{label} (Reference)")
             else:
-                axes[0].plot(E_Rs_KeV, dR, label=label)
-    axes[0].set_ylabel(ylabel)
-    axes[0].set_title(title)
+                axes[0].plot(E_Rs, dR, label=label)
+    axes[0].set_ylabel("dR/dE (day⁻¹ kg⁻¹ KeV⁻¹)")
+    axes[0].set_title("Differential Rate")
     axes[0].legend()
 
-    # Ratio panel
-    for i, (ratio, label) in enumerate(zip(ratio_values, labels)):
-        if i == reference_index:
-            axes[1].plot(E_Rs_KeV, ratio, linestyle=(0,(5,1)), linewidth=4, label=f"{label} (Reference)")
+    # Comparison panel 
+    dR_reference = dR_values[ref_index]
+    if panel_type == 'ratio':
+        comp_values = [dR / dR_reference for dR in dR_values]
+        ylabel = "Ratio"
+        ref_line = 1
+    elif panel_type == 'residual':
+        comp_values = [dR - dR_reference for dR in dR_values]
+        ylabel = "Residual"
+        ref_line = 0
+    elif panel_type == 'weighted_residual':
+        # Avoid division by zero — assume Poisson for now
+        comp_values = [(dR - dR_reference) / np.sqrt(dR_reference + 1e-12) for dR in dR_values]
+        ylabel = "weighted_residual"
+        ref_line = 0
+    else:
+        raise ValueError(f"Unknown comparison_type: {panel_type}")
+    # Compute ratio relative to reference
+    label_ref = labels[ref_index]
+    for i, (comp, label) in enumerate(zip(comp_values, labels)):
+        if i == ref_index:
+            axes[1].plot(
+                E_Rs, comp, linestyle=(0, (5, 1)), linewidth=2.5,
+                label=f"{label} (Reference)"
+            )
         else:
-            axes[1].plot(E_Rs_KeV, ratio, label=label)
+            if panel_type == "ratio":
+                comp_label = f"\[{label}\] / \[{label_ref}\]"
+            elif panel_type == "residual":
+                comp_label = f"{label} - {label_ref}"
+            elif panel_type == "weighted_residual":
+                comp_label = f"({label} - {label_ref}) / √{label_ref}"
+            else:
+                comp_label = label  # fallback
 
-    axes[1].axhline(1, color="gray", linestyle="--")  # Reference line at y=1
-    axes[1].set_xlabel(xlabel)
-    axes[1].set_ylabel("Ratio")
-    axes[1].set_ylim(ratio_rage)
+            axes[1].plot(E_Rs, comp, label=comp_label)
 
+    axes[1].axhline(ref_line, color="gray", linestyle="--")
+    axes[1].set_xlabel("Energy (KeV)")
+    axes[1].set_ylabel(ylabel)
+    axes[1].legend()
 
     plt.tight_layout()
-    plt.show()
+    if show:
+        plt.show()
+
+    return fig, axes
