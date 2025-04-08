@@ -3,7 +3,8 @@ import numpy as np
 import math
 
 # for rate: consider interaction factor A^2 by default
-def get_spectrum_in_GeV_analytical(E, flag_nuclear_form_factor = True):
+
+def get_spectrum_in_GeV_analytical(E):
     """
     Calculate the differential rate from numerical method, only v_esc = inf., see derivation in writeup
     E: recoil energy in GeV
@@ -12,6 +13,7 @@ def get_spectrum_in_GeV_analytical(E, flag_nuclear_form_factor = True):
     m_T = config.A*0.938 #[GeV]
     m_D = config.m_D_0
     xs = config.xs_0
+    flag_nuclear_form_factor = True
 
     # most probable incident energy of the dark matter [GeV]
     E0 = 1/2 * m_D * (config.v_0/(3*10**5))**2 # in GeV
