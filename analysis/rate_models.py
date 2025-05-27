@@ -99,6 +99,7 @@ def get_rate_14(E_KeV, dm_params):
     return c1 * R0/E0/r * np.exp(-k*E_GeV) *A*A * 1e-6
 
 def get_rate_12(E_KeV, dm_params):
+    # from levin paper eq 3.12
     A = dm_params.mass_number_A
     m_D = dm_params.m_D_GeV
     v_0 = dm_params.v0_kms
@@ -117,6 +118,7 @@ def get_rate_12(E_KeV, dm_params):
     return diff1 * F * A**2 * 1e-6
 
 def get_rate_13(E_KeV, dm_params):
+    
     # known incorrect leven eq 3.13
     A = dm_params.mass_number_A
     m_D = dm_params.m_D_GeV
