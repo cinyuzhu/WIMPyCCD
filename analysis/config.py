@@ -8,7 +8,8 @@ m_T = A*0.938 #[GeV]
 v_0 = 230. #[km s-1] d
 # v_esc = 999999 #[km s-1]
 v_esc = 600. #[km s-1] # as recommended in Lewin and Smith
-v_E = 244. #[km s-1]
+# v_E = 244. #[km s-1]
+v_E = 263.
 flag_nuclear_form_factor = True
 
 #base parameter:

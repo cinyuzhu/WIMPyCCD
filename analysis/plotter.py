@@ -49,7 +49,8 @@ def plot_differential_rate(E_Rs, dR_values, labels,
             )
         else:
             if panel_type == "ratio":
-                comp_label = f"\[{label}\] / \[{label_ref}\]"
+                # comp_label = f"\[{label}\] / \[{label_ref}\]"
+                comp_label = f"{label} / {label_ref}"
             elif panel_type == "residual":
                 comp_label = f"{label} - {label_ref}"
             elif panel_type == "weighted_residual":
