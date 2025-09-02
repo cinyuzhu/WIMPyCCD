@@ -4,3 +4,8 @@ nuclear quenching correction.txt
 .DS_Store
 *.pyc
 *.root
+data
+digitized
+from_Julian
+NR
+nuclear_yield

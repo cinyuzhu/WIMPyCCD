@@ -25,7 +25,7 @@ def scan_sensitivity(dm_params, rate_function, lgmass_range = [0, 1], lgxs_range
             dm_params.sigma_pb = xs
             
             R_tot = integrate.quad(lambda E: rate_function(E, dm_params = dm_params), dm_params.E_min_KeV, 40)[0]
-            if abs(R_tot * dm_params.exposure_kgdays - get_Nexp_from_CL(dm_params.confidence_level)) < 0.01:
+            if abs(R_tot * dm_params.exposure_kgdays - get_Nexp_from_CL(dm_params.confidence_level)) < 0.1:
                 contour_mass.append(m_D)
                 contour_xs.append(xs)
 

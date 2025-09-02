@@ -2,7 +2,6 @@ import numpy as np
 from scipy.special import erf
 from scipy.special import spherical_jn
 import math
-from dm_params import DMParams
 
 
 def nuclear_form_factor(E_KeV, dm_params):
@@ -53,7 +52,7 @@ def velo_int(E_R, dm_params):
    
 
 def get_rate_ben(E_KeV, dm_params):
-    # 'supposedly correct function from ben loer's thesis
+    # 'supposedly correct function from ben loer's thesis section 1.2.2
     rate_SI = ((dm_params.N0 * dm_params.sigma_m2 *dm_params.rho_SI *dm_params.m_T_kg)/(2*dm_params.mass_number_A*dm_params.mu_n**2*dm_params.m_D_kg)*
                 dm_params.mass_number_A**2*nuclear_form_factor(E_KeV, dm_params)**2*velo_int(E_KeV, dm_params))
     # print(dm_params.N0, dm_params.sigma_m2, dm_params.rho_SI, dm_params.m_T_kg, dm_params.mass_number_A, dm_params.mu_n, dm_params.m_D_kg)
