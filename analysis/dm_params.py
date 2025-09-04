@@ -1,16 +1,14 @@
 class DMParams:
     def __init__(self,
-                 m_D_GeV,
-                 sigma_pb,
-                 rho_GeV_cm3,
-                 v0_kms,
-                 vE_kms,
-                 vesc_kms,
-                 exposure_kgdays,
-                 confidence_level,
-                 mass_number_A,
-                 c1, c2,
-                 E_min_KeV):
+                 m_D_GeV = 5,
+                 sigma_pb = 1,
+                 rho_GeV_cm3 = 0.3,
+                 v0_kms = 238,
+                 vE_kms = 263,
+                 vesc_kms= 544,
+                 confidence_level = 0.9,
+                 mass_number_A = 28,
+                 ):
         
         # Natural units
         self.m_D_GeV = m_D_GeV
@@ -19,12 +17,8 @@ class DMParams:
         self.v0_kms = v0_kms
         self.vE_kms = vE_kms
         self.vesc_kms = vesc_kms
-        self.exposure_kgdays = exposure_kgdays
         self.confidence_level = confidence_level
         self.mass_number_A = mass_number_A
-        self.c1 = c1
-        self.c2 = c2
-        self.E_min_KeV = E_min_KeV
         self.N0 = 6.02e26
     
     # to keep the following parameters updated in real time
