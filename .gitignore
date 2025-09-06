@@ -1,6 +1,4 @@
-*.npz
 nuclear quenching correction.txt
-*.png
 .DS_Store
 *.pyc
 *.root
@@ -10,3 +8,4 @@ from_Julian
 NR
 nuclear_yield
 neutron_paper_plots
+simulation
